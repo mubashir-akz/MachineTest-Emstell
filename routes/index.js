@@ -14,6 +14,9 @@ router.post('/login',()=>{
 router.get('/register',(req,res)=>{
   res.render('register')
 })
-
+// POST :-- registerValidation
+router.post('/register',(req,res)=>{
+  console.log();
+})
 // eslint-disable-next-line no-undef
 module.exports = router;
