@@ -3,11 +3,15 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const db = require('./config/connection')
 
 var indexRouter = require('./routes/index');
 
 var app = express();
-
+db.connect((err) => {
+  if (err) console.log('Database not connected Error is ' + err);
+  else console.log('Database connected');
+})
 // view engine setup
 // eslint-disable-next-line no-undef
 app.set('views', path.join(__dirname, 'views'));
@@ -22,12 +26,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res) {
+app.use(function (err, req, res) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
