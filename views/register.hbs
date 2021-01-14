@@ -109,7 +109,13 @@
     <div class="login-form mt-5 ">
         <form action="/examples/actions/confirmation.php" method="post">
             <div class="avatar"><i class="material-icons">&#xE7FF;</i></div>
-            <h4 class="modal-title">Login to Your Account</h4>
+            <h4 class="modal-title">Register to Your Account</h4>
+            <div class="alert alert-warning alert-dismissible fade show" style="display: none;" id="alert" role="alert">
+                <strong>Username! </strong> Already exist. Please use another username
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
             <div class="form-group">
                 <input type="text" id="email" class="form-control" placeholder="E-mail" required="required">
             </div>
@@ -122,14 +128,14 @@
             <div class="form-group small clearfix">
                 <label class="form-check-label"><input type="checkbox"> Remember me</label>
             </div>
-            <input type="button" onclick="validateRegister()" class="btn btn-primary btn-block btn-lg" value="Login">
+            <input type="button" onclick="validateRegister()" class="btn btn-primary btn-block btn-lg" value="Register">
         </form>
         <div class="text-center small">Already have an account? <a href="/">Sign up</a></div>
     </div>
 </body>
 
 <script>
-    function validateRegister(){
+    function validateRegister() {
         const email = document.getElementById('email').value
         const Username = document.getElementById('username').value
         const password = document.getElementById('password').value
@@ -139,8 +145,13 @@
                 Username, password, email
             },
             method: 'post',
-            success: () => {
-                alert('success')
+            success: (data) => {
+                alert(data.status)
+                if (data.status) {
+                    window.location.href = '/'
+                } else {
+                    document.getElementById('alert').style.display = 'block'
+                }
             }
         })
     }
