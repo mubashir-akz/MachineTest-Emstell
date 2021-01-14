@@ -132,7 +132,18 @@
 </body>
 <script>
     function validateLogin(){
-        alert('its workdin')
+        const Username = document.getElementById('Username').value
+        const password = document.getElementById('password').value
+        $.ajax({
+            url:'/login',
+            data:{
+                Username,password
+            },
+            method:'post',
+            success:()=>{
+                alert('success')    
+            }
+        })
     }
 </script>
 </html>
