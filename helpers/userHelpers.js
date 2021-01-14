@@ -27,7 +27,7 @@ module.exports = {
                 if (datas[0]) {
                     bcrypt.compare(data.password, datas[0].password).then((status) => {
                         if (status) {
-                            resolve({ status: true, data: datas});
+                            resolve({ status: true, data: datas });
                         } else {
                             resolve({ status: false });
                         }
@@ -35,6 +35,45 @@ module.exports = {
                 } else {
                     resolve({ status: false });
                 }
+            })
+        })
+    },
+    addTodo: (data, id) => {
+        return new Promise((resolve, reject) => {
+            data.ownerId = id
+            db.get().collection(collections.TODOS).insertOne(data).then(() => {
+                resolve()
+            })
+        })
+    },
+    getTodo: (id) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collections.TODOS).find({ ownerId: id }).toArray().then((data) => {
+                resolve(data)
+            })
+        })
+    },
+    removeTodo: (id) => {
+        return new Promise((resolve, reject) => {
+            console.log(id);
+            db.get().collection(collections.TODOS).deleteOne({ _id: ObjectID(id) }).then(() => {
+                resolve()
+            })
+        })
+    },
+    editTodo: (id,text) => {
+        return new Promise((resolve, reject) => {
+            console.log(id);
+            db.get().collection(collections.TODOS).updateOne({ _id: ObjectID(id) },{$set:{todo:text}}).then(() => {
+                resolve()
+            })
+        })
+    },
+    deleteAllTodo:(id)=>{
+        return new Promise((resolve, reject) => {
+            console.log(id);
+            db.get().collection(collections.TODOS).remove({ ownerId: id }).then(() => {
+                resolve()
             })
         })
     }

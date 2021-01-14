@@ -6,12 +6,12 @@ const state = {
 // eslint-disable-next-line no-undef
 module.exports.connect = function (done) {
     // eslint-disable-next-line no-undef
-    const url = process.env.DB_CONFIG
+    const url = 'mongodb+srv://mubas:q4YdWcKNrlLKlGbV@cluster0.qamji.mongodb.net/todo?retryWrites=true&w=majority'
     const dbname = "MachineTest";
 
     mongoClient.connect(url, { useUnifiedTopology: true }, (err, data) => {
         if (err) return done(err);
-        state.db = data.db(dbname);
+        state.db = data.db(dbname);  
         done();
     });
 };

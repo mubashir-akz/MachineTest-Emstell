@@ -110,12 +110,12 @@
         <form action="/examples/actions/confirmation.php" method="post">
             <div class="avatar"><i class="material-icons">&#xE7FF;</i></div>
             <h4 class="modal-title">Login to Your Account</h4>
-        <div class="alert alert-warning alert-dismissible fade show" style="display: none;" role="alert">
-            <strong>Holy guacamole!</strong> You should check in on some of those fields below.
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
+            <div class="alert alert-warning alert-dismissible fade show" style="display: none;" id="alert" role="alert">
+                <strong>Username or Password!</strong> error. Try Again
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
             <div class="form-group">
                 <input type="text" id="Username" class="form-control" placeholder="Username" required="required">
             </div>
@@ -131,19 +131,24 @@
     </div>
 </body>
 <script>
-    function validateLogin(){
+    function validateLogin() {
         const Username = document.getElementById('Username').value
         const password = document.getElementById('password').value
         $.ajax({
-            url:'/login',
-            data:{
-                Username,password
+            url: '/login',
+            data: {
+                Username, password
             },
-            method:'post',
-            success:(data)=>{
-                alert(data.status)    
+            method: 'post',
+            success: (data) => {
+                if (data.status) {
+                    window.location.href = '/home'
+                } else {
+                    document.getElementById('alert').style.display = 'block'
+                }
             }
         })
     }
 </script>
+
 </html>

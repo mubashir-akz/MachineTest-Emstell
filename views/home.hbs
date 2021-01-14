@@ -1,0 +1,310 @@
+<style>
+    @media screen and (max-width: 600px) {
+        .box {
+            width: 90%;
+            padding: 10px;
+        }
+
+        .output {
+            width: 90%;
+        }
+
+        #search {
+            width: 90%;
+        }
+
+        .box input {
+            font-size: 18px;
+        }
+
+        .output ol li {
+            font-size: 1rem;
+        }
+
+        h1 {
+            margin: 20px 0;
+        }
+
+        #count {
+            margin: 15px 0 30px;
+        }
+
+        .box input {
+            width: 80%;
+            height: 30px;
+            padding: 5px 10px;
+        }
+
+        .box button {
+            width: 20%;
+            height: 30px;
+            font-size: 0.8rem;
+        }
+    }
+
+    @media screen and (min-width: 600px) {
+        .box {
+            width: 600px;
+            padding: 20px;
+        }
+
+        .output {
+            width: 600px;
+        }
+
+        #search {
+            width: 300px;
+        }
+
+        .box inut {
+            font-size: 23px;
+        }
+
+        .output ol li {
+            font-size: 20px;
+        }
+
+        h1 {
+            margin: 50px 0;
+        }
+
+        #count {
+            margin: 50px 0;
+        }
+
+        .box input {
+            width: 80%;
+            height: 50px;
+            padding: 5px 20px;
+        }
+
+        .box button {
+            width: 20%;
+            height: 50px;
+            font-size: 20px;
+        }
+    }
+
+    * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    .box {
+        background-color: #dedede;
+        margin: auto;
+        overflow: hidden;
+        box-shadow: 0px 0px 5px #ccc;
+        border-radius: 50px;
+    }
+
+    .box input {
+        float: left;
+        border: none;
+        border-top-left-radius: 50px;
+        border-bottom-left-radius: 50px;
+        outline: none;
+    }
+
+    .box button {
+        border: none;
+        cursor: pointer;
+        border-top-right-radius: 50px;
+        border-bottom-right-radius: 50px;
+        font-weight: bold;
+        text-transform: uppercase;
+        background-color: rgb(241, 241, 241);
+    }
+
+    .box button:focus {
+        outline: none;
+    }
+
+    .output {
+        margin: 30px auto;
+    }
+
+    .output ol li {
+        position: relative;
+    }
+
+    ol {
+        list-style-type: none;
+    }
+
+    span.remove {
+        position: absolute;
+        right: 0;
+        top: 0;
+        float: right;
+        padding: 10px;
+        display: block;
+        cursor: pointer;
+        color: darkred;
+        font-weight: bold;
+    }
+
+    span.edit {
+        position: absolute;
+        top: 0;
+        right: 87px;
+        padding: 10px;
+        cursor: pointer;
+        color: darkorange;
+        font-weight: bold;
+    }
+
+    .text {
+        display: block;
+        cursor: pointer;
+        color: #000;
+        padding: 10px;
+    }
+
+
+    #count {
+        text-align: center;
+        font-weight: bold;
+    }
+
+    #clear {
+        width: 100px;
+        height: 30px;
+        margin: auto;
+        display: block;
+        cursor: pointer;
+    }
+
+    #search {
+        margin: auto;
+        display: block;
+        outline: none;
+        margin-bottom: 10px;
+        border-radius: 50px;
+        height: 30px;
+        padding: 10px;
+        border: 1px solid #dedede;
+    }
+
+    .checked {
+        text-decoration: line-through;
+    }
+
+    ;
+</style>
+<!-- Image and text -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Todo</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+
+
+        </ul>
+        
+        <li class=" dropdown">
+            <button class="btn nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                {{name}}
+            </button>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="/logout">Logout</a>
+            </div>
+        </li>
+    </div>
+</nav>
+<div class="main">
+    <h1>ToDo</h1>
+
+    <div id="count">ToDo Count: {{count}}</div>
+    <div class="box">
+        <input type="text" id="Username" class="form-control" placeholder="Username" required="required">
+        <button id="add" onclick="todoAdding()">Add</button>
+    </div>
+    <div class="output">
+        <input type="text" id="search" placeholder="Search For ToDo">
+        <ol id="list">
+            {{#each datas}}
+            <li class="toDoItem">
+                <a class="text">{{this.todo}}</a>
+                <span value="{{this._id}}" onclick="editTodo('{{this._id}}')" class="edit">Edit</span>
+                <span onclick="window.location='/removeTodo/{{this._id}}'" class="remove">Remove</span>
+            </li>
+            {{/each}}
+        </ol>
+    </div>
+
+    <button id="clear" onclick="deleteAll()">Clear All</button>
+</div>
+
+<script>
+    function todoAdding() {
+        const item = document.getElementById('Username').value
+        $.ajax({
+            url: '/addTodo',
+            method: 'post',
+            data: {
+                todo: item
+            },
+            success: (data) => {
+                window.location.reload()
+            }
+        })
+    }
+    function editTodo(id) {
+        let text = prompt('Edit todo')
+        $.ajax({
+            url: '/editTodo',
+            method: 'post',
+            data: {
+                id, text
+            },
+            success: (data) => {
+                window.location.reload()
+            }
+        })
+    }
+    function deleteAll() {
+        $.ajax({
+            url: '/deleteAllTodo',
+            method: 'post',
+            data: {
+
+            },
+            success: (data) => {
+                window.location.reload()
+            }
+        })
+    }
+    search = document.getElementById('search'); // Search Input
+    const todoList = {
+        searchToDo: e => {
+            let list = document.getElementsByClassName('toDoItem');
+            let text = e.target.value.toLowerCase();
+
+            for (let i = 0; i < list.length; i++) {
+                if (list[i].children[0].textContent.toLowerCase().indexOf(text) != -1) {
+                    list[i].style.display = 'block';
+                } else {
+                    list[i].style.display = 'none';
+                }
+            }
+        }
+    }
+    search.addEventListener('keyup', todoList.searchToDo);
+
+</script>

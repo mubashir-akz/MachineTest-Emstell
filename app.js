@@ -1,19 +1,16 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 const db = require('./config/connection')
-
-var indexRouter = require('./routes/index');
-
-var app = express();
+const indexRouter = require('./routes/index');
+const app = express();
 db.connect((err) => {
   if (err) console.log('Database not connected Error is ' + err);
   else console.log('Database connected');
 })
-// view engine setup
-// eslint-disable-next-line no-undef
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 app.set('etag', false);
