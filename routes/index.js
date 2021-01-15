@@ -4,7 +4,7 @@ const router = express.Router();
 const MongoStore = require("connect-mongo")(expressSession);
 const bcrypt = require('bcrypt')
 const userHelpers = require('../helpers/userHelpers')
-const app = express()
+
 router.use(
   expressSession({
     name: "users",
@@ -18,6 +18,8 @@ router.use(
   })
 );
 
+
+// middle wares
 function validateUser(req, res, next) {
   if (req.session.users) {
     next()

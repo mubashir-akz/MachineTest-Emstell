@@ -6,6 +6,7 @@ const logger = require('morgan');
 const db = require('./config/connection')
 const indexRouter = require('./routes/index');
 const app = express();
+
 db.connect((err) => {
   if (err) console.log('Database not connected Error is ' + err);
   else console.log('Database connected');

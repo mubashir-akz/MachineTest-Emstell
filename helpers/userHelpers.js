@@ -22,7 +22,6 @@ module.exports = {
     },
     loginValidation: (data) => {
         return new Promise((resolve, reject) => {
-            console.log(data);
             db.get().collection(collections.USERS).find({ Username: data.Username }).toArray().then((datas) => {
                 if (datas[0]) {
                     bcrypt.compare(data.password, datas[0].password).then((status) => {
@@ -55,7 +54,6 @@ module.exports = {
     },
     removeTodo: (id) => {
         return new Promise((resolve, reject) => {
-            console.log(id);
             db.get().collection(collections.TODOS).deleteOne({ _id: ObjectID(id) }).then(() => {
                 resolve()
             })
@@ -63,7 +61,6 @@ module.exports = {
     },
     editTodo: (id,text) => {
         return new Promise((resolve, reject) => {
-            console.log(id);
             db.get().collection(collections.TODOS).updateOne({ _id: ObjectID(id) },{$set:{todo:text}}).then(() => {
                 resolve()
             })
@@ -71,7 +68,6 @@ module.exports = {
     },
     deleteAllTodo:(id)=>{
         return new Promise((resolve, reject) => {
-            console.log(id);
             db.get().collection(collections.TODOS).remove({ ownerId: id }).then(() => {
                 resolve()
             })
